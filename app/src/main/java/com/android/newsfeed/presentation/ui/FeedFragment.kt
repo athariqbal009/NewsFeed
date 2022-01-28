@@ -30,6 +30,7 @@ class FeedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         fragmentFeedBinding = FragmentFeedBinding.bind(view)
         viewModel = (activity as MainActivity).viewModel
+        feedAdapter = (activity as MainActivity).adapter
         initRecyclerView()
         viewFeedList()
     }

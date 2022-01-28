@@ -7,6 +7,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.android.newsfeed.data.model.Row
 import com.android.newsfeed.databinding.FeedListItemBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 
 class FeedAdapter: RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
     private val callback = object :DiffUtil.ItemCallback<Row>() {
@@ -39,7 +42,9 @@ class FeedAdapter: RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
     inner class FeedViewHolder(private val binding: FeedListItemBinding):
         RecyclerView.ViewHolder(binding.root) {
         fun bind(feed: Row){
-
+            binding.textViewTitle.text = feed.title
+            binding.textViewDescription.text = feed.description
+            Glide.with(binding.imageView.context).load(feed.imageHref).into(binding.imageView)
         }
     }
 
