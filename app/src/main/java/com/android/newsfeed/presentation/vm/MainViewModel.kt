@@ -18,11 +18,7 @@ class MainViewModel(
     private val _uiState = MutableLiveData<Resource<FeedModel>>()
     val uiState: LiveData<Resource<FeedModel>> get() = _uiState
 
-    init {
-        getFeeds()
-    }
-
-    private fun getFeeds() = viewModelScope.launch(Dispatchers.IO) {
+    fun getFeeds() = viewModelScope.launch(Dispatchers.IO) {
         _uiState.postValue(Resource.Loading())
         try {
             val feeds = getFeedUseCase.execute()

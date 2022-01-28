@@ -1,10 +1,13 @@
 package com.android.newsfeed.presentation.ui
 
+import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.newsfeed.R
 import com.android.newsfeed.data.util.Resource
@@ -14,7 +17,7 @@ import com.android.newsfeed.presentation.vm.MainViewModel
 import timber.log.Timber
 
 class FeedFragment : Fragment() {
-    private lateinit var fragmentFeedBinding : FragmentFeedBinding
+    private lateinit var fragmentFeedBinding: FragmentFeedBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var feedAdapter: FeedAdapter
 
@@ -29,10 +32,25 @@ class FeedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fragmentFeedBinding = FragmentFeedBinding.bind(view)
+
+        (activity as MainActivity).supportActionBar?.title = getString(R.string.app_name)
+
         viewModel = (activity as MainActivity).viewModel
         feedAdapter = (activity as MainActivity).adapter
+        feedAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("selected_feed", it)
+            }
+            findNavController().navigate(
+                R.id.action_feedFragment_to_detailFragment,
+                bundle
+            )
+        }
         initRecyclerView()
         viewFeedList()
+        fragmentFeedBinding.swipeRefresh.setOnRefreshListener {
+            viewFeedList()
+        }
     }
 
     private fun initRecyclerView() {
@@ -43,21 +61,24 @@ class FeedFragment : Fragment() {
     }
 
     private fun viewFeedList() {
+        fragmentFeedBinding.swipeRefresh.isRefreshing = true
+        viewModel.getFeeds()
         viewModel.uiState.observe(viewLifecycleOwner, { response ->
-            when(response) {
-                is Resource.Loading-> {
+            when (response) {
+                is Resource.Loading -> {
 
                 }
-                is Resource.Success-> {
+                is Resource.Success -> {
                     Timber.d(response.data.toString())
                     response.data?.let {
                         feedAdapter.differ.submitList(it.rows)
                     }
                 }
-                is Resource.Error-> {
+                is Resource.Error -> {
 
                 }
             }
         })
+        fragmentFeedBinding.swipeRefresh.isRefreshing = false
     }
 }

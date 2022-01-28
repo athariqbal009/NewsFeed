@@ -18,5 +18,8 @@
         android:id="@+id/detailFragment"
         android:name="com.android.newsfeed.presentation.ui.DetailFragment"
         android:label="fragment_detail"
-        tools:layout="@layout/fragment_detail" />
+        tools:layout="@layout/fragment_detail">
+        <argument android:name="selected_feed"
+            app:argType="com.android.newsfeed.data.model.Row"/>
+    </fragment>
 </navigation>
