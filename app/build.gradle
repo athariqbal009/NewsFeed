@@ -4,15 +4,18 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp'
 }
 
 android {
-    compileSdk 31
+    namespace "com.android.newsfeed"
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.android.newsfeed"
         minSdk 30
-        targetSdk 31
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -33,6 +36,7 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures{
+        buildConfig = true
         dataBinding = true
         viewBinding = true
     }
@@ -70,7 +74,8 @@ dependencies {
 
     // Dagger hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation 'androidx.core:core-ktx:1.13.1'
+    ksp "com.google.dagger:hilt-compiler:$hilt_version"
 
     // Navigation library
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
@@ -78,7 +83,7 @@ dependencies {
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
-    kapt "com.github.bumptech.glide:compiler:$glide_version"
+    ksp "com.github.bumptech.glide:compiler:$glide_version"
 
     testImplementation "junit:junit:$junit_version"
     testImplementation "com.squareup.okhttp3:mockwebserver:$okhttp_version"

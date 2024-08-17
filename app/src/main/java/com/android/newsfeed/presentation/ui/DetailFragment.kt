@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.android.newsfeed.BR
 import com.android.newsfeed.R
@@ -17,7 +18,7 @@ import com.bumptech.glide.Glide
 class DetailFragment : Fragment() {
 
     private lateinit var fragmentDetailBinding: FragmentDetailBinding
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,7 +31,6 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fragmentDetailBinding = FragmentDetailBinding.bind(view)
-        viewModel = (activity as MainActivity).viewModel
 
         val args : DetailFragmentArgs by navArgs()
         val feed = args.selectedFeed

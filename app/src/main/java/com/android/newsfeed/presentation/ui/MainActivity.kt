@@ -1,6 +1,7 @@
 package com.android.newsfeed.presentation.ui
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var adapter: FeedAdapter
 
     private lateinit var binding: ActivityMainBinding
-    lateinit var viewModel: MainViewModel
+    val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,6 @@ class MainActivity : AppCompatActivity() {
 
         }
 
-        viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
+        //viewModel = ViewModelProvider(this, factory)[MainViewModel::class.java]
     }
 }

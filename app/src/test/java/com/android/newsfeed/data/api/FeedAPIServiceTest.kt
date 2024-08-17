@@ -1,6 +1,5 @@
 package com.android.newsfeed.data.api
 
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse
@@ -28,8 +27,8 @@ class FeedAPIServiceTest {
     }
 
     private fun enqueueMockResponse(
-        fileName:String
-    ){
+        fileName: String
+    ) {
         val inputStream = javaClass.classLoader!!.getResourceAsStream(fileName)
         val source = inputStream.source().buffer()
         val mockResponse = MockResponse()
@@ -39,7 +38,7 @@ class FeedAPIServiceTest {
     }
 
     @Test
-    fun getFeeds_sentRequest_receivedExpected(){
+    fun getFeeds_sentRequest_receivedExpected() {
         runBlocking {
             enqueueMockResponse("feedresponse.json")
             val responseBody = service.getFeeds().body()
@@ -50,7 +49,7 @@ class FeedAPIServiceTest {
     }
 
     @Test
-    fun getFeeds_receivedResponse_correctContent(){
+    fun getFeeds_receivedResponse_correctContent() {
         runBlocking {
             enqueueMockResponse("feedresponse.json")
             val responseBody = service.getFeeds().body()

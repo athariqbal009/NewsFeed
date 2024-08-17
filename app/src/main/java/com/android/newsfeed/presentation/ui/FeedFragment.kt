@@ -1,12 +1,11 @@
 package com.android.newsfeed.presentation.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.newsfeed.R
@@ -18,7 +17,7 @@ import timber.log.Timber
 
 class FeedFragment : Fragment() {
     private lateinit var fragmentFeedBinding: FragmentFeedBinding
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by activityViewModels()
     private lateinit var feedAdapter: FeedAdapter
 
     override fun onCreateView(
@@ -35,7 +34,6 @@ class FeedFragment : Fragment() {
 
         (activity as MainActivity).supportActionBar?.title = getString(R.string.app_name)
 
-        viewModel = (activity as MainActivity).viewModel
         feedAdapter = (activity as MainActivity).adapter
         feedAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
@@ -68,12 +66,14 @@ class FeedFragment : Fragment() {
                 is Resource.Loading -> {
 
                 }
+
                 is Resource.Success -> {
                     Timber.d(response.data.toString())
                     response.data?.let {
                         feedAdapter.differ.submitList(it.rows)
                     }
                 }
+
                 is Resource.Error -> {
 
                 }
