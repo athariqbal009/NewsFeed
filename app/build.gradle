@@ -50,7 +50,7 @@ dependencies {
     implementation "com.google.android.material:material:$material_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
 
-    // Swipe Referesh
+    // Swipe Refresh
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swipe_refresh_version"
 
     // ViewModel
